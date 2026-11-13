@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kadika Grup - Layanan Digital & Top-up Terpercaya</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1d4ed8',
+                        secondary: '#3b82f6',
+                        darkblue: '#1e3a8a',
+                        softblue: '#eff6ff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 10px 30px 0 rgba(37, 99, 235, 0.08);
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+        }
+        .glass-modal {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 1);
+            box-shadow: 0 20px 40px -10px rgba(37, 99, 235, 0.2);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-white text-blue-950 font-sans antialiased selection:bg-blue-600 selection:text-white">
+
+    <!-- Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+            <!-- Ketuk 5 kali pada area ini untuk membuka Dashboard Admin -->
+            <div id="secretAdminTrigger" class="flex items-center space-x-2.5 cursor-pointer select-none">
+                <img src="https://cdn.phototourl.com/member/2026-11-13-b6c48495-65c6-4402-9eca-02e35be24b7f.png" alt="Logo Kadika Grup" class="h-12 sm:h-14 w-auto object-contain pointer-events-none">
+                <span class="text-lg sm:text-2xl font-extrabold tracking-wide bg-gradient-to-r from-blue-900 to-blue-600 bg-clip-text text-transparent pointer-events-none">Kadika Grup</span>
+            </div>
+            
+            <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                <a href="#layanan" class="text-blue-900 hover:text-blue-600 transition">Layanan</a>
+                <a href="#testimoni" class="text-blue-900 hover:text-blue-600 transition">Ulasan</a>
+                <a href="#kontak" class="text-blue-900 hover:text-blue-600 transition">Kontak</a>
+            </nav>
+
+            <div id="auth-nav-section" class="flex items-center space-x-2">
+                <!-- Diisi otomatis oleh JavaScript -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative pt-24 pb-12 md:pt-36 md:pb-20 overflow-hidden bg-gradient-to-b from-blue-50/50 via-white to-white">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] bg-blue-400/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                <div class="lg:col-span-7 text-center lg:text-left" data-aos="fade-right" data-aos-duration="800">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-100/80 text-blue-700 text-xs font-semibold mb-4 border border-blue-200">
+                        <i class="fa-solid fa-bolt text-blue-600"></i> Platform Layanan Digital & Sosmed #1
+                    </span>
+                    <h1 class="text-2xl sm:text-4xl lg:text-5xl font-black text-blue-950 tracking-tight leading-tight mb-4">
+                        Solusi Digital Terlengkap & <span class="bg-gradient-to-r from-blue-700 to-cyan-600 bg-clip-text text-transparent">Paling Premium</span>
+                    </h1>
+                    <p class="text-sm sm:text-base text-blue-900/80 mb-6 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                        Nikmati layanan Nokos, Akun Premium, Suntik Sosmed instan dengan sistem otomatis QRIS, serta Jasa Design dan Promosi profesional bersama Kadika Grup.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3">
+                        <a href="#layanan" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-blue-700 to-blue-600 text-white font-bold shadow-lg shadow-blue-500/25 hover:scale-[1.02] transition text-sm text-center">
+                            Mulai Belanja <i class="fa-solid fa-arrow-right ml-1.5"></i>
+                        </a>
+                        <button onclick="openTopupModal()" class="w-full sm:w-auto px-6 py-3 rounded-xl glass-card text-blue-800 font-bold hover:bg-blue-50 transition border border-blue-200 text-sm text-center">
+                            <i class="fa-solid fa-wallet mr-1.5 text-blue-600"></i> Top-up Saldo QRIS
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5" data-aos="fade-left" data-aos-duration="800" data-aos-delay="150">
+                    <div class="glass-card p-5 sm:p-6 rounded-2xl relative">
+                        <div class="absolute -top-3 -right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-[11px] font-bold shadow">
+                            100% Otomatis
+                        </div>
+                        <h3 class="text-base sm:text-lg font-bold text-blue-950 mb-3 flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-blue-600"></i> Statistik & Keamanan
+                        </h3>
+                        <div class="space-y-3">
+                            <div class="p-3 rounded-xl bg-white/80 border border-blue-100 flex items-center justify-between">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
+                                        <i class="fa-solid fa-users"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-[11px] text-blue-900/60 font-medium">Pengguna Aktif</p>
+                                        <p class="text-sm font-black text-blue-950">1,450+</p>
+                                    </div>
+                                </div>
+                                <span class="text-emerald-600 text-[11px] font-bold bg-emerald-50 px-2 py-0.5 rounded-full">Online</span>
+                            </div>
+
+                            <div class="p-3 rounded-xl bg-white/80 border border-blue-100 flex items-center justify-between">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
+                                        <i class="fa-solid fa-bolt"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-[11px] text-blue-900/60 font-medium">Transaksi Sukses</p>
+                                        <p class="text-sm font-black text-blue-950">9,820+</p>
+                                    </div>
+                                </div>
+                                <span class="text-blue-600 text-[11px] font-bold bg-blue-50 px-2 py-0.5 rounded-full">Instan</span>
+                            </div>
+
+                            <div class="p-3 rounded-xl bg-blue-600 text-white flex items-center justify-between shadow">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-8 h-8 rounded-lg bg-white/20 text-white flex items-center justify-center font-bold text-sm">
+                                        <i class="fa-solid fa-headset"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-[11px] text-blue-100 font-medium">Layanan Pelanggan</p>
+                                        <p class="text-xs font-black">24 Jam Fast Response</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="layanan" class="py-14 sm:py-20 relative bg-slate-50/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-xl mx-auto mb-10 sm:mb-12" data-aos="fade-up">
+                <h2 class="text-xl sm:text-3xl font-black text-blue-950 mb-2">Layanan Unggulan Kami</h2>
+                <p class="text-blue-900/70 text-xs sm:text-sm">Pilih berbagai macam kebutuhan digital Anda dengan kualitas terbaik dan harga bersaing.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+                
+                <!-- Service 1: Nokos -->
+                <div class="glass-card p-5 sm:p-6 rounded-2xl hover:-translate-y-1 transition duration-300 group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg font-bold mb-4 shadow-md shadow-blue-500/25 group-hover:scale-105 transition">
+                        <i class="fa-solid fa-phone-volume"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-blue-950 mb-2">Jasa Nokos (Nomor Kosong)</h3>
+                    <p class="text-blue-900/70 mb-5 text-xs sm:text-sm leading-relaxed">Nomor virtual aktif untuk verifikasi WhatsApp, Telegram, Google, dll dengan OTP masuk otomatis di web.</p>
+                    <div class="flex items-center justify-between pt-3 border-t border-blue-100">
+                        <span class="text-xs font-bold text-blue-700">Rp 5.000 / Nokos</span>
+                        <button onclick="orderService('Nokos', 5000)" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold shadow hover:bg-blue-700 transition">Beli Sekarang</button>
+                    </div>
+                </div>
+
+                <!-- Service 2: Apk Premium -->
+                <div class="glass-card p-5 sm:p-6 rounded-2xl hover:-translate-y-1 transition duration-300 group" data-aos="fade-up" data-aos-delay="150">
+                    <div class="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg font-bold mb-4 shadow-md shadow-blue-500/25 group-hover:scale-105 transition">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-blue-950 mb-2">Aplikasi Premium</h3>
+                    <p class="text-blue-900/70 mb-5 text-xs sm:text-sm leading-relaxed">Netflix, Spotify, YouTube Premium, Canva Pro, dan aplikasi berbayar lainnya legal dan garansi penuh.</p>
+                    <div class="flex items-center justify-between pt-3 border-t border-blue-100">
+                        <span class="text-xs font-bold text-blue-700">Mulai Rp 15.000</span>
+                        <button onclick="orderService('Apk Premium', 15000)" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold shadow hover:bg-blue-700 transition">Beli Sekarang</button>
+                    </div>
+                </div>
+
+                <!-- Service 3: Suntik Sosmed -->
+                <div class="glass-card p-5 sm:p-6 rounded-2xl hover:-translate-y-1 transition duration-300 group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-11 h-11 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg font-bold mb-4 shadow-md shadow-blue-500/25 group-hover:scale-105 transition">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-blue-950 mb-2">Suntik Sosmed</h3>
+                    <p class="text-blue-900/70 mb-5 text-xs sm:text-sm leading-relaxed">Tambah followers, likes, dan views untuk Instagram, TikTok, dan YouTube secara instan dan aman.</p>
+                    <div class="flex items-center justify-between pt-3 border-t border-blue-100">
+                        <span class="text-xs font-bold text-blue-700">Mulai Rp 25.000</span>
+                        <button onclick="orderService('Suntik Sosmed', 25000)" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold shadow hover:bg-blue-700 transition">Beli Sekarang</button>
+                    </div>
+                </div>
+
+                <!-- Service 4: Jasa Design -->
+                <div class="glass-card p-5 sm:p-6 rounded-2xl hover:-translate-y-1 transition duration-300 group" data-aos="fade-up" data-aos-delay="250">
+                    <div class="w-11 h-11 rounded-xl bg-cyan-600 text-white flex items-center justify-center text-lg font-bold mb-4 shadow-md shadow-cyan-500/25 group-hover:scale-105 transition">
+                        <i class="fa-solid fa-palette"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-blue-950 mb-2">Jasa Design</h3>
+                    <p class="text-blue-900/70 mb-5 text-xs sm:text-sm leading-relaxed">Desain logo, feed Instagram, banner, poster, dan company profile dikerjakan oleh desainer profesional.</p>
+                    <div class="flex items-center justify-between pt-3 border-t border-blue-100">
+                        <span class="text-xs font-bold text-blue-700">Custom Order</span>
+                        <button onclick="orderWhatsapp('Jasa Design')" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold shadow hover:bg-emerald-700 transition flex items-center gap-1"><i class="fa-brands fa-whatsapp"></i> Chat Admin</button>
+                    </div>
+                </div>
+
+                <!-- Service 5: Jasa Promosi -->
+                <div class="glass-card p-5 sm:p-6 rounded-2xl hover:-translate-y-1 transition duration-300 group md:col-span-2 lg:col-span-2" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-11 h-11 rounded-xl bg-cyan-600 text-white flex items-center justify-center text-lg font-bold mb-4 shadow-md shadow-cyan-500/25 group-hover:scale-105 transition">
+                        <i class="fa-solid fa-bullhorn"></i>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-blue-950 mb-2">Jasa Promosi & Paid Promote</h3>
+                    <p class="text-blue-900/70 mb-5 text-xs sm:text-sm leading-relaxed">Tingkatkan penjualan bisnis Anda melalui strategi promosi konten di jaringan media sosial partner kami yang luas dan tertarget.</p>
+                    <div class="flex items-center justify-between pt-3 border-t border-blue-100">
+                        <span class="text-xs font-bold text-blue-700">Konsultasi Kebutuhan Promosi</span>
+                        <button onclick="orderWhatsapp('Jasa Promosi')" class="px-3 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-bold shadow hover:bg-emerald-700 transition flex items-center gap-1"><i class="fa-brands fa-whatsapp"></i> Chat Admin</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimoni" class="py-14 sm:py-20 relative bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-xl mx-auto mb-10 sm:mb-12" data-aos="fade-up">
+                <span class="text-blue-600 font-bold text-[11px] uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full border border-blue-100">Testimoni Terpercaya</span>
+                <h2 class="text-xl sm:text-3xl font-black text-blue-950 mt-2 mb-2">Apa Kata Pelanggan Kami?</h2>
+                <p class="text-blue-900/70 text-xs sm:text-sm">Ribuan pelanggan telah mempercayakan kebutuhan digital dan sosmed mereka di Kadika Grup.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="glass-card p-5 sm:p-6 rounded-2xl relative" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-blue-950 text-xs sm:text-sm font-medium mb-4 leading-relaxed">"Mantap banget! Beli nokos buat verifikasi WA langsung muncul nomor dan OTP-nya di riwayat web. Gak pake ribet!"</p>
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-full bg-blue-700 text-white font-bold flex items-center justify-center text-xs">RP</div>
+                        <div>
+                            <h4 class="font-bold text-blue-950 text-xs">Rian Pratama</h4>
+                            <p class="text-[10px] text-blue-600 font-medium">Bandung</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-5 sm:p-6 rounded-2xl relative" data-aos="fade-up" data-aos-delay="150">
+                    <div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-blue-950 text-xs sm:text-sm font-medium mb-4 leading-relaxed">"Langganan apk premium Netflix di Kadika Grup selalu lancar, gak pernah kendala dan garansinya beneran aman. Recommended!"</p>
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-full bg-cyan-600 text-white font-bold flex items-center justify-center text-xs">SA</div>
+                        <div>
+                            <h4 class="font-bold text-blue-950 text-xs">Siti Aisyah</h4>
+                            <p class="text-[10px] text-blue-600 font-medium">Jakarta Selatan</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card p-5 sm:p-6 rounded-2xl relative" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center gap-1 text-amber-400 text-xs mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-blue-950 text-xs sm:text-sm font-medium mb-4 leading-relaxed">"Suntik followers IG di sini cepet banget masuknya dan akun aman. Adminnya juga ramah pas di-chat buat konsultasi jasa promosi bisnis."</p>
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-full bg-blue-900 text-white font-bold flex items-center justify-center text-xs">DF</div>
+                        <div>
+                            <h4 class="font-bold text-blue-950 text-xs">Dimas Firmansyah</h4>
+                            <p class="text-[10px] text-blue-600 font-medium">Surabaya</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="kontak" class="bg-blue-950 text-white py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-12.1 mb-3">
+    <img src="https://cdn.phototourl.com/member/2026-11-13-0b0398d1-348e-47e1-956c-5a868b2f2d78.png" alt="Logo Kadika Grup" class="h-16 w-auto object-contain">
+    <span class="text-lg font-extrabold tracking-wide">Kadika Grup</span>
+</div>
+                    <p class="text-blue-200/80 text-xs">Pusat layanan digital terbaik, terpercaya, cepat, dan otomatis untuk kebutuhan online Anda.</p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold mb-2">Menu Utama</h4>
+                    <ul class="space-y-1.5 text-blue-200/80 text-xs">
+                        <li><a href="#layanan" class="hover:text-white transition">Daftar Layanan</a></li>
+                        <li><a href="#" onclick="openTopupModal()" class="hover:text-white transition">Top-up Saldo QRIS</a></li>
+                        <li><a href="#" onclick="openAuthModal('login')" class="hover:text-white transition">Masuk Akun</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold mb-2">Hubungi Kami</h4>
+                    <p class="text-blue-200/80 text-xs mb-1.5"><i class="fa-solid fa-envelope mr-1.5"></i> suppor@kadikagrupgmail.com</p>
+                    <p class="text-blue-200/80 text-xs"><i class="fa-brands fa-whatsapp mr-1.5"></i> +6283879092164</p>
+                </div>
+            </div>
+            <div class="pt-4 border-t border-blue-900 text-center text-blue-300 text-[11px]">
+                © 2026 Kadika Grup. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODALS -->
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 z-50 flex items-center justify-center bg-blue-950/40 backdrop-blur-sm hidden">
+        <div class="glass-modal w-full max-w-sm p-6 rounded-2xl shadow-xl relative m-4" data-aos="zoom-in" data-aos-duration="250">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-blue-900/60 hover:text-blue-950 text-base"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="authModalTitle" class="text-lg font-black text-blue-950 mb-4">Daftar Akun Baru</h3>
+            <form id="authForm" onsubmit="handleAuthSubmit(event)" class="space-y-3">
+                <div id="nameFieldContainer">
+                    <label class="block text-[11px] font-bold text-blue-900 uppercase tracking-wider mb-1">Nama Lengkap</label>
+                    <input type="text" id="authName" class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-blue-200 text-blue-950 text-xs focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Masukkan nama Anda">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-blue-900 uppercase tracking-wider mb-1">Username</label>
+                    <input type="text" id="authUsername" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-blue-200 text-blue-950 text-xs focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="Username">
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-blue-900 uppercase tracking-wider mb-1">Password</label>
+                    <input type="password" id="authPassword" required class="w-full px-3.5 py-2.5 rounded-xl bg-white border border-blue-200 text-blue-950 text-xs focus:outline-none focus:ring-2 focus:ring-blue-600" placeholder="••••••••">
+                </div>
+                <button type="submit" id="authSubmitBtn" class="w-full py-3 rounded-xl bg-blue-600 text-white font-bold shadow-md hover:bg-blue-700 transition text-xs mt-2">Daftar</button>
+            </form>
+            <div class="mt-4 text-center text-xs">
+                <p id="authToggleText" class="text-blue-900/70">Sudah punya akun? <button onclick="toggleAuthMode()" class="text-blue-600 font-bold hover:underline">Masuk</button></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Topup Modal -->
+    <div id="topupModal" class="fixed inset-0 z-50 flex items-center justify-center bg-blue-950/40 backdrop-blur-sm hidden">
+        <div class="glass-modal w-full max-w-sm p-6 rounded-2xl shadow-xl relative m-4 text-center" data-aos="zoom-in" data-aos-duration="250">
+            <button onclick="closeTopupModal()" class="absolute top-4 right-4 text-blue-900/60 hover:text-blue-950 text-base"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-lg font-black text-blue-950 mb-1">Top-up Saldo QRIS</h3>
+            <p class="text-blue-900/70 text-xs mb-4">Scan QRIS di bawah menggunakan m-Banking atau E-Wallet.</p>
+            <!-- Minimal topup 10k -->
+            <input type="number" id="topupNominal" value="10000" min="10000" step="5000" class="w-full px-3 py-2.5 rounded-xl bg-white border border-blue-200 font-bold text-sm mb-3 text-center" oninput="updateQrisImage()">
+            <div class="bg-white p-2.5 rounded-xl border border-blue-200 inline-block mb-3 shadow-inner">
+                <!-- GANTI URL QRIS ANDA DI SINI -->
+                <img id="qrisImg" src="https://cdn.phototourl.com/member/2026-11-13-eafcd8a2-05f8-4287-b261-98ddfa7bba64.jpg" alt="QRIS" class="w-48 h-48 mx-auto rounded-lg object-contain">
+            </div>
+            <button onclick="confirmTopupRequest()" class="w-full py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs shadow hover:bg-blue-700 transition">Konfirmasi Sudah Bayar</button>
+        </div>
+    </div>
+
+    <!-- User History Modal -->
+    <div id="userHistoryModal" class="fixed inset-0 z-50 flex items-center justify-center bg-blue-950/40 backdrop-blur-sm hidden">
+        <div class="glass-modal w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6 rounded-2xl shadow-xl relative m-4">
+            <button onclick="closeUserHistoryModal()" class="absolute top-4 right-4 text-blue-900/60 hover:text-blue-950 text-base"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-lg font-black text-blue-950 mb-1">Riwayat & Detail Pembelian Saya</h3>
+            <div class="overflow-x-auto rounded-xl border border-blue-200 bg-white/70 mt-4">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-blue-50 text-blue-900 font-bold border-b border-blue-200">
+                            <th class="p-2.5">Tanggal</th>
+                            <th class="p-2.5">Layanan</th>
+                            <th class="p-2.5">Nominal</th>
+                            <th class="p-2.5">Data / OTP</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userHistoryTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin PIN Modal -->
+    <div id="adminPinModal" class="fixed inset-0 z-50 flex items-center justify-center bg-blue-950/40 backdrop-blur-sm hidden">
+        <div class="glass-modal w-full max-w-xs p-6 rounded-2xl shadow-xl relative m-4 text-center">
+            <button onclick="closeAdminPinModal()" class="absolute top-4 right-4 text-blue-900/60"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-base font-black text-blue-950 mb-2">Admin Authentication</h3>
+            <form onsubmit="verifyAdminPin(event)">
+                <input type="password" id="adminPinInput" required placeholder="PIN (1234)" class="w-full px-3 py-2.5 rounded-xl bg-white border border-blue-200 text-center font-bold mb-3 text-sm">
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs">Masuk Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal -->
+    <div id="adminDashboardModal" class="fixed inset-0 z-50 flex items-center justify-center bg-blue-950/60 backdrop-blur-md hidden">
+        <div class="glass-modal w-full max-w-5xl max-h-[90vh] overflow-y-auto p-6 rounded-2xl shadow-2xl relative m-4">
+            <div class="flex items-center justify-between pb-4 border-b border-blue-200 mb-4">
+                <h3 class="text-xl font-black text-blue-950">Dashboard Admin Supabase</h3>
+                <button onclick="closeAdminDashboard()" class="text-lg"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="flex gap-2 mb-4 border-b border-blue-200 pb-2">
+                <button onclick="switchAdminTab('users')" id="tabUsersBtn" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-bold text-xs">Pengguna</button>
+                <button onclick="switchAdminTab('nokos')" id="tabNokosBtn" class="px-3 py-1.5 rounded-lg bg-white text-blue-900 font-bold text-xs">Stok Nokos</button>
+                <button onclick="switchAdminTab('transactions')" id="tabTxBtn" class="px-3 py-1.5 rounded-lg bg-white text-blue-900 font-bold text-xs">Transaksi</button>
+            </div>
+            <!-- Tab Users -->
+            <div id="adminUsersTabContent">
+                <table class="w-full text-left text-xs bg-white/70 rounded-xl overflow-hidden">
+                    <thead class="bg-blue-50 text-blue-900 font-bold">
+                        <tr><th class="p-2.5">Username</th><th class="p-2.5">Nama</th><th class="p-2.5">Saldo</th><th class="p-2.5 text-right">Aksi</th></tr>
+                    </thead>
+                    <tbody id="adminUserTableBody"></tbody>
+                </table>
+            </div>
+            <!-- Tab Nokos -->
+            <div id="adminNokosTabContent" class="hidden space-y-4">
+                <form onsubmit="addNokosStock(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <input type="text" id="newNokosNumber" required placeholder="No HP (+62...)" class="px-3 py-2 rounded border text-xs">
+                    <input type="text" id="newNokosOtp" required placeholder="OTP / Detail" class="px-3 py-2 rounded border text-xs">
+                    <button type="submit" class="bg-blue-600 text-white font-bold rounded text-xs py-2">Tambah Stok</button>
+                </form>
+                <table class="w-full text-left text-xs bg-white/70 rounded-xl overflow-hidden">
+                    <thead class="bg-blue-50 text-blue-900 font-bold">
+                        <tr><th class="p-2.5">Nomor</th><th class="p-2.5">OTP</th><th class="p-2.5">Status</th></tr>
+                    </thead>
+                    <tbody id="adminNokosTableBody"></tbody>
+                </table>
+            </div>
+            <!-- Tab Transactions -->
+            <div id="adminTxTabContent" class="hidden">
+                <table class="w-full text-left text-xs bg-white/70 rounded-xl overflow-hidden">
+                    <thead class="bg-blue-50 text-blue-900 font-bold">
+                        <tr><th class="p-2.5">Tanggal</th><th class="p-2.5">User</th><th class="p-2.5">Jenis</th><th class="p-2.5">Nominal</th><th class="p-2.5">Detail</th></tr>
+                    </thead>
+                    <tbody id="adminTxTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, duration: 600 });
+
+        // ==========================================================
+        // MASUKKAN URL & API KEY SUPABASE ANDA DI BAWAH INI
+        // ==========================================================
+        const SUPABASE_URL = 'https://awzbhrpxbrbzqgwyktde.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_EoIJN5F6rR0bvUGbzqyCNA_fRyLqTkS';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        const ADMIN_PIN = "kadika_grup";
+
+        let tapCount = 0; let tapTimer = null;
+        document.getElementById('secretAdminTrigger').addEventListener('click', () => {
+            tapCount++; clearTimeout(tapTimer);
+            tapTimer = setTimeout(() => { tapCount = 0; }, 800);
+            if (tapCount >= 5) { tapCount = 0; document.getElementById('adminPinModal').classList.remove('hidden'); }
+        });
+
+        function getCurrentUser() { return JSON.parse(localStorage.getItem('kadika_current_user')) || null; }
+        function setCurrentUser(user) {
+            if (user) localStorage.setItem('kadika_current_user', JSON.stringify(user));
+            else localStorage.removeItem('kadika_current_user');
+            renderNavAuth();
+        }
+
+        function renderNavAuth() {
+            const container = document.getElementById('auth-nav-section');
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                container.innerHTML = `
+                    <div class="flex items-center gap-1.5 sm:gap-2">
+                        <div class="text-right hidden sm:block">
+                            <p class="text-[11px] font-bold text-blue-950">${currentUser.name || currentUser.username}</p>
+                            <p class="text-[11px] font-semibold text-blue-600">Rp ${Number(currentUser.balance || 0).toLocaleString('id-ID')}</p>
+                        </div>
+                        <button onclick="openUserHistoryModal()" class="p-2 rounded-xl bg-blue-50 text-blue-700 text-xs" title="Riwayat"><i class="fa-solid fa-box-archive"></i></button>
+                        <button onclick="openTopupModal()" class="px-3 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-bold">Top-up</button>
+                        <button onclick="setCurrentUser(null); alert('Keluar');" class="p-2 rounded-xl bg-red-50 text-red-600 text-xs"><i class="fa-solid fa-right-from-bracket"></i></button>
+                    </div>`;
+            } else {
+                container.innerHTML = `
+                    <button onclick="openAuthModal('login')" class="px-3 py-2 text-blue-900 font-bold text-xs">Masuk</button>
+                    <button onclick="openAuthModal('register')" class="px-3.5 py-2 bg-blue-600 text-white font-bold text-xs rounded-xl">Daftar</button>`;
+            }
+        }
+
+        let isLoginMode = false;
+        function openAuthModal(mode) {
+            isLoginMode = (mode === 'login');
+            document.getElementById('authModalTitle').innerText = isLoginMode ? "Masuk" : "Daftar Akun Baru";
+            document.getElementById('authSubmitBtn').innerText = isLoginMode ? "Masuk" : "Daftar";
+            document.getElementById('nameFieldContainer').style.display = isLoginMode ? "none" : "block";
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+        function toggleAuthMode() { openAuthModal(isLoginMode ? 'register' : 'login'); }
+
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            const username = document.getElementById('authUsername').value.trim();
+            const password = document.getElementById('authPassword').value;
+            const name = document.getElementById('authName').value.trim();
+
+            if (isLoginMode) {
+                const { data, error } = await supabaseClient.from('users').select('*').eq('username', username).eq('password', password).single();
+                if (error || !data) alert("Username atau password salah!");
+                else { setCurrentUser(data); closeAuthModal(); alert("Berhasil masuk!"); }
+            } else {
+                const { error } = await supabaseClient.from('users').insert([{ username, password, name: name || username, balance: 0 }]);
+                if (error) alert("Username sudah terdaftar atau gagal terhubung ke database.");
+                else {
+                    const { data } = await supabaseClient.from('users').select('*').eq('username', username).single();
+                    setCurrentUser(data); closeAuthModal(); alert("Registrasi berhasil!");
+                }
+            }
+        }
+
+        function openTopupModal() {
+            if (!getCurrentUser()) { alert("Silakan login dulu."); openAuthModal('login'); return; }
+            updateQrisImage(); document.getElementById('topupModal').classList.remove('hidden');
+        }
+        function closeTopupModal() { document.getElementById('topupModal').classList.add('hidden'); }
+        
+        function updateQrisImage() {
+            // GANTI URL QRIS ANDA DI SINI
+            const myQrisUrl = "https://i.ibb.co.com/placeholder-qris.png"; 
+            document.getElementById('qrisImg').src = myQrisUrl;
+        }
+
+        async function confirmTopupRequest() {
+            const nominal = parseInt(document.getElementById('topupNominal').value);
+            if (nominal < 10000) { alert("Minimal top-up adalah Rp 10.000!"); return; }
+            const user = getCurrentUser();
+            await supabaseClient.from('transactions').insert([{ username: user.username, type: 'Top-up QRIS', amount: nominal, detail_data: 'Pending (Menunggu Admin)', date: new Date().toLocaleString('id-ID') }]);
+            alert("Permintaan top-up terkirim! Menunggu verifikasi admin."); closeTopupModal();
+        }
+
+        async function orderService(serviceName, price) {
+            const user = getCurrentUser();
+            if (!user) { alert("Silakan login dulu."); openAuthModal('login'); return; }
+
+            const { data: freshUser } = await supabaseClient.from('users').select('*').eq('username', user.username).single();
+            if (freshUser.balance < price) { alert("Saldo tidak mencukupi! Silakan top-up."); openTopupModal(); return; }
+
+            let detail = "Diproses Admin";
+            if (serviceName === 'Nokos') {
+                const { data: stockList } = await supabaseClient.from('nokos_stock').select('*').eq('status', 'Tersedia').limit(1);
+                if (!stockList || stockList.length === 0) { alert("Stok Nokos sedang habis! Silakan hubungi admin."); return; }
+                const item = stockList[0];
+                await supabaseClient.from('nokos_stock').update({ status: 'Terjual ke ' + user.username }).eq('id', item.id);
+                detail = `No: ${item.number} | OTP: ${item.otp}`;
+            } else {
+                detail = `Aktivasi ${serviceName} Sukses. Cek riwayat/hubungi admin untuk detail akun.`;
+            }
+
+            const newBalance = freshUser.balance - price;
+            await supabaseClient.from('users').update({ balance: newBalance }).eq('username', user.username);
+            freshUser.balance = newBalance;
+            setCurrentUser(freshUser);
+
+            await supabaseClient.from('transactions').insert([{ username: user.username, type: `Beli ${serviceName}`, amount: price, detail_data: detail, date: new Date().toLocaleString('id-ID') }]);
+            alert(`Pembelian Sukses!\n\nDetail Data Anda:\n${detail}`);
+        }
+
+        function orderWhatsapp(serviceName) {
+            const currentUser = getCurrentUser();
+            const name = currentUser ? currentUser.name : 'Pelanggan';
+            const message = encodeURIComponent(`Halo Admin Kadika Grup, saya ${name} ingin memesan ${serviceName}. Mohon info lebih lanjut.`);
+            // GANTI NOMOR WHATSAPP ANDA DI BAWAH INI (Format: 628xxxxxxxxxx)
+            window.open(`https://wa.me/6283879092164?text=${message}`, '_blank');
+        }
+
+        async function openUserHistoryModal() {
+            const user = getCurrentUser();
+            const { data: txs } = await supabaseClient.from('transactions').select('*').eq('username', user.username);
+            const tbody = document.getElementById('userHistoryTableBody');
+            tbody.innerHTML = !txs || txs.length === 0 ? `<tr><td colspan="4" class="p-3 text-center">Belum ada riwayat.</td></tr>` :
+                txs.map(t => `<tr class="border-b"><td class="p-2">${t.date}</td><td class="p-2 font-bold">${t.type}</td><td class="p-2">Rp ${Number(t.amount).toLocaleString('id-ID')}</td><td class="p-2 font-mono bg-blue-50">${t.detail_data}</td></tr>`).join('');
+            document.getElementById('userHistoryModal').classList.remove('hidden');
+        }
+        function closeUserHistoryModal() { document.getElementById('userHistoryModal').classList.add('hidden'); }
+
+        function verifyAdminPin(e) {
+            e.preventDefault();
+            if (document.getElementById('adminPinInput').value === ADMIN_PIN) {
+                document.getElementById('adminPinModal').classList.add('hidden');
+                openAdminDashboard();
+            } else { alert("PIN Salah!"); }
+        }
+        function closeAdminPinModal() { document.getElementById('adminPinModal').classList.add('hidden'); }
+        async function openAdminDashboard() {
+            await renderAdmin();
+            document.getElementById('adminDashboardModal').classList.remove('hidden');
+        }
+        function closeAdminDashboard() { document.getElementById('adminDashboardModal').classList.add('hidden'); }
+
+        function switchAdminTab(tab) {
+            document.getElementById('adminUsersTabContent').classList.toggle('hidden', tab !== 'users');
+            document.getElementById('adminNokosTabContent').classList.toggle('hidden', tab !== 'nokos');
+            document.getElementById('adminTxTabContent').classList.toggle('hidden', tab !== 'transactions');
+        }
+
+        async function renderAdmin() {
+            const { data: users } = await supabaseClient.from('users').select('*');
+            const { data: stock } = await supabaseClient.from('nokos_stock').select('*');
+            const { data: txs } = await supabaseClient.from('transactions').select('*');
+
+            document.getElementById('adminUserTableBody').innerHTML = (users || []).map(u => `
+                <tr class="border-b"><td class="p-2 font-bold">${u.username}</td><td class="p-2">${u.name}</td><td class="p-2">Rp ${Number(u.balance || 0).toLocaleString('id-ID')}</td>
+                <td class="p-2 text-right"><button onclick="adminTopup('${u.username}')" class="bg-blue-600 text-white px-2 py-1 rounded text-[10px]">Isi Saldo</button></td></tr>`).join('');
+
+            document.getElementById('adminNokosTableBody').innerHTML = (stock || []).map(s => `
+                <tr class="border-b"><td class="p-2 font-mono">${s.number}</td><td class="p-2 font-mono">${s.otp}</td><td class="p-2"><span class="px-2 py-0.5 rounded text-[10px] ${s.status === 'Tersedia' ? 'bg-emerald-50 text-emerald-600' : 'bg-rose-50 text-rose-600'}">${s.status}</span></td></tr>`).join('');
+
+            document.getElementById('adminTxTabContent').querySelector('tbody').innerHTML = (txs || []).map(t => `
+                <tr class="border-b"><td class="p-2 text-[10px]">${t.date}</td><td class="p-2">${t.username}</td><td class="p-2">${t.type}</td><td class="p-2">Rp ${Number(t.amount || 0).toLocaleString('id-ID')}</td><td class="p-2 font-mono text-[10px]">${t.detail_data}</td></tr>`).join('');
+        }
+
+        async function addNokosStock(e) {
+            e.preventDefault();
+            const number = document.getElementById('newNokosNumber').value;
+            const otp = document.getElementById('newNokosOtp').value;
+            await supabaseClient.from('nokos_stock').insert([{ number, otp, status: 'Tersedia' }]);
+            document.getElementById('newNokosNumber').value = ''; document.getElementById('newNokosOtp').value = '';
+            await renderAdmin(); alert("Stok Nokos berhasil ditambahkan!");
+        }
+
+        async function adminTopup(username) {
+            const nominal = parseInt(prompt(`Tambah saldo untuk ${username}:`, "50000"));
+            if (!nominal) return;
+            const { data: u } = await supabaseClient.from('users').select('*').eq('username', username).single();
+            const newBal = (parseFloat(u.balance) || 0) + nominal;
+            await supabaseClient.from('users').update({ balance: newBal }).eq('username', username);
+            await supabaseClient.from('transactions').insert([{ username, type: 'Top-up Saldo (Admin)', amount: nominal, detail_data: 'Sukses (Diverifikasi Admin)', date: new Date().toLocaleString('id-ID') }]);
+            
+            if (getCurrentUser() && getCurrentUser().username === username) {
+                u.balance = newBal; setCurrentUser(u);
+            }
+            await renderAdmin(); alert("Saldo berhasil diisi!");
+        }
+
+        renderNavAuth();
+    </script>
+</body>
+</html>
